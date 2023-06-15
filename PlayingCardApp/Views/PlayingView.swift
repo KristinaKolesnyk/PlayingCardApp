@@ -25,11 +25,11 @@ struct PlayingView: View {
     @State var count = 0
     @State var countDownTimer = 5
     @State var timerRunning = true
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var isPresenting = false
+    @Binding var dispalyingCurApp: PlayingCardAppApp.CurrentScreen
+    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
-
+ 
             ZStack{
                 Image("background")
                     .resizable()
@@ -68,7 +68,7 @@ struct PlayingView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(Color.lightColor).padding(.leading,20)
                                 .padding(.trailing,20).onReceive(timer){ timerOutput in
-                                    if count < 10 {
+                                    if count < 3 {
                                         if countDownTimer > 0 && timerRunning {
                                             if countDownTimer == 2 {
                                                 swipeBack()
@@ -81,7 +81,7 @@ struct PlayingView: View {
                                         }
                                     } else {
                                         timerRunning = false
-
+                                        dispalyingCurApp = .Score
                                     }
                                 }
                         }
@@ -93,7 +93,7 @@ struct PlayingView: View {
                     
                     Spacer()
                 }
-        }
+            }
     }
     
     
@@ -121,6 +121,6 @@ struct PlayingView: View {
 
 struct PlayingView_Previews: PreviewProvider {
     static var previews: some View {
-        PlayingView()
+        PlayingView(  dispalyingCurApp: .constant(.Playing))
     }
 }

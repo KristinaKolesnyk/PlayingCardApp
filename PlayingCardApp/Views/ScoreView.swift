@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ScoreView: View {
+    @Binding var dispalyingCurApp: PlayingCardAppApp.CurrentScreen
+    
     var body: some View {
         
             ZStack{
@@ -25,9 +27,12 @@ struct ScoreView: View {
                     }.foregroundColor(Color.lightColor)
                     
                     Spacer()
-                    NavigationLink(destination: InitializationView(), label: {
+                    Button{
+                        dispalyingCurApp = .InitializationScreen
+                    }
+                    label: {
                         Image("restart")
-                    })
+                    }
                     
                     Spacer()
                 }
@@ -40,6 +45,6 @@ struct ScoreView: View {
 
 struct ScoreView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreView()
+        ScoreView( dispalyingCurApp: .constant(.Score))
     }
 }

@@ -12,8 +12,9 @@ struct InitializationView: View {
     @State private var name = ""
     @State private var isPresentingNameEntry = false
     
+    @Binding var dispalyingCurApp: PlayingCardAppApp.CurrentScreen
+    
     var body: some View {
-        NavigationView {
             ZStack{
                 Image("background")
                     .resizable()
@@ -21,7 +22,7 @@ struct InitializationView: View {
                 VStack{
                     VStack {
                         Spacer()
-                        if showButton {
+                        if name.isEmpty {
                             Button(action: {
                                 isPresentingNameEntry = true
                             }) {
@@ -62,9 +63,13 @@ struct InitializationView: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: PlayingView(), label: {
+                    
+                        
+                        Button{
+                            dispalyingCurApp = .Playing
+                        } label: {
                             Image("start")
-                        })
+                        }.disabled(name.isEmpty)
                         Spacer()
                         
                         VStack {
@@ -73,12 +78,10 @@ struct InitializationView: View {
                                 .fontWeight(.bold).foregroundColor(Color.lightColor)
                         }
                     }.padding(.leading,20).padding(.trailing,20)
-                    
-                    
+     
                 }
             }
         }
-    }
 }
 
 struct NameEntryView: View {
@@ -108,6 +111,6 @@ struct NameEntryView: View {
 
 struct InitializationView_Previews: PreviewProvider {
     static var previews: some View {
-        InitializationView()
+        InitializationView( dispalyingCurApp: .constant(.InitializationScreen))
     }
 }
